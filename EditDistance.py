@@ -75,7 +75,12 @@ class EditDistanceFinder():
             for observed_char, observed_count in counter.items():
                 self.probs[intended_char][observed_char] = observed_count / total
 
+    def _clean(self, w): 
+        return "".join([c if c in self.ALPHA else self.UNK for c in w])
+
     def align(self, observed_word, intended_word):
+        observed_cleaned = self._clean(observed_word)
+        intended_cleaned = self._clean(intended_word)
 
         table = self._do_align(observed_word, intended_word)
         alignment = self._do_trace(observed_word, intended_word, table)
@@ -122,22 +127,16 @@ class EditDistanceFinder():
         return list(reversed(alignments))
     
     def del_cost(self, char):
-        if char not in self.ALPHA:
-            char = self.UNK
-        return 1-self.probs[char][self.BLANK]
+        return 1-self.probs[self._clean(char)][self.BLANK]
     
     def ins_cost(self, char):
-        if char not in self.ALPHA:
-            char = self.UNK
-        return 1-self.probs[self.BLANK][char]
+        return 1-self.probs[self.BLANK][self._clean(char)]
     
     def sub_cost(self, observed_char, intended_char):
-        if observed_char not in self.ALPHA:
-            observed_char = self.UNK
-        if intended_char not in self.ALPHA:
-            intended_char = self.UNK
+        observed_clean = self._clean(observed_char)
+        intended_clean = self._clean(intended_char)
         if observed_char == intended_char: return 0
-        else: return 1-self.probs[intended_char][observed_char]
+        else: return 1-self.probs[intended_clean][observed_clean]
         
     def show_alignment(self, alignments):
         observed, intended = list(zip(*alignments))
