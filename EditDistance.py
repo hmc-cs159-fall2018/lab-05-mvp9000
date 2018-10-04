@@ -61,7 +61,7 @@ class EditDistanceFinder():
         counts = defaultdict(Counter) 
         self.probs = defaultdict(lambda: defaultdict(float))
 
-        alphabet = string.ascii_lowercase + "unk" + "%"
+        alphabet = [a for a in string.ascii_lowercase] + ['unk', self.BLANK] 
 
         for a in alphabet:
             for b in alphabet:
@@ -122,12 +122,20 @@ class EditDistanceFinder():
         return list(reversed(alignments))
     
     def del_cost(self, char):
+        if char not in string.ascii_lowercase:
+            char = "unk"
         return 1-self.probs[char][self.BLANK]
     
     def ins_cost(self, char):
+        if char not in string.ascii_lowercase:
+            char = "unk"
         return 1-self.probs[self.BLANK][char]
     
     def sub_cost(self, observed_char, intended_char):
+        if observed_char not in string.ascii_lowercase:
+            observed_char = "unk"
+        if intended_char not in string.ascii_lowercase:
+            intended_char = "unk"
         if observed_char == intended_char: return 0
         else: return 1-self.probs[intended_char][observed_char]
         
@@ -158,7 +166,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--store", "-s", type=argparse.FileType('wb'), required=True)
-    parser.add_argument("--source", type=argparse.FileType('r', encoding='UTF-8'))
+    parser.add_argument("--source", type=argparse.FileType('r', encoding='UTF-8'), required=True)
     args = parser.parse_args()
 
     aligner = EditDistanceFinder()    
