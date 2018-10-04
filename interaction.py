@@ -27,18 +27,18 @@ if __name__ == "__main__":
     print(s.channel_model.prob("hellp", "hello"))
     print(s.channel_model.prob("hllp", "hello"))
 
-    print(s.check_line("they did not yb any menas"))
+    print(s.check_text("they did not yb any menas"))
     """
     >>> [['they'], ['did'], ['not'], ['by', 'b', 'ye', 'y', 'yo', 'ob', 'ya', 'ab'], ['any'], 
     >>>  ['means', 'mens', 'mena', 'zenas', 'menan', 'mends']]
     """
 
-    print(s.autocorrect_line("they did not yb any menas"))
+    print(s.autocorrect_text("they did not yb any menas"))
     """
     >>> ['they', 'did', 'not', 'by', 'any', 'means']
     """
 
-    print(s.suggest_line("they did not yb any menas", max_suggestions=2))
+    print(s.suggest_text("they did not yb any menas", max_suggestions=2))
     """
     >>> ['they', 'did', 'not', ['by', 'b'], 'any', ['means', 'mens']]
     """
