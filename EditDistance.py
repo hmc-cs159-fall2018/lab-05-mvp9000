@@ -18,6 +18,8 @@ import sys
 class EditDistanceFinder():
     DEL, SUB, INS = range(3)
     BLANK = '%'
+    UNK = '~'
+    ALPHA = string.ascii_lowercase + BLANK + UNK
     def __init__(self):
         self.probs = defaultdict(lambda: defaultdict(float))
 
@@ -61,10 +63,8 @@ class EditDistanceFinder():
         counts = defaultdict(Counter) 
         self.probs = defaultdict(lambda: defaultdict(float))
 
-        alphabet = [a for a in string.ascii_lowercase] + ['unk', self.BLANK] 
-
-        for a in alphabet:
-            for b in alphabet:
+        for a in self.ALPHA:
+            for b in self.ALPHA:
                 counts[a][b] += .1
         
         for observed_char, intended_char in alignments:
@@ -122,20 +122,20 @@ class EditDistanceFinder():
         return list(reversed(alignments))
     
     def del_cost(self, char):
-        if char not in string.ascii_lowercase:
-            char = "unk"
+        if char not in self.ALPHA:
+            char = self.UNK
         return 1-self.probs[char][self.BLANK]
     
     def ins_cost(self, char):
-        if char not in string.ascii_lowercase:
-            char = "unk"
+        if char not in self.ALPHA:
+            char = self.UNK
         return 1-self.probs[self.BLANK][char]
     
     def sub_cost(self, observed_char, intended_char):
-        if observed_char not in string.ascii_lowercase:
-            observed_char = "unk"
-        if intended_char not in string.ascii_lowercase:
-            intended_char = "unk"
+        if observed_char not in self.ALPHA:
+            observed_char = self.UNK
+        if intended_char not in self.ALPHA:
+            intended_char = self.UNK
         if observed_char == intended_char: return 0
         else: return 1-self.probs[intended_char][observed_char]
         
