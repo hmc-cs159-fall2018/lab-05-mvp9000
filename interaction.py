@@ -33,7 +33,7 @@ if __name__ == "__main__":
     >>>  ['means', 'mens', 'mena', 'zenas', 'menan', 'mends']]
     """
 
-    print(s.autocorrect_text("they did not yb any menas"))
+    print(s.autocorrect_line("they did not yb any menas"))
     """
     >>> ['they', 'did', 'not', 'by', 'any', 'means']
     """
