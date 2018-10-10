@@ -82,8 +82,8 @@ class EditDistanceFinder():
         observed_cleaned = self._clean(observed_word)
         intended_cleaned = self._clean(intended_word)
 
-        table = self._do_align(observed_word, intended_word)
-        alignment = self._do_trace(observed_word, intended_word, table)
+        table = self._do_align(observed_cleaned, intended_cleaned)
+        alignment = self._do_trace(observed_cleaned, intended_cleaned, table)
 
         return (table['cost'][-1, -1], alignment)
 
@@ -152,8 +152,8 @@ class EditDistanceFinder():
         score, alignment = self.align(observed_word, intended_word)
         total_prob = 0
         for observed_char, intended_char in alignment:
-            intd = intended_char if intended_char in self.probs else "unk"
-            obsv = observed_char if observed_char in self.probs[intd] else "unk"
+            intd = intended_char if intended_char in self.probs else UNK
+            obsv = observed_char if observed_char in self.probs[intd] else UNK
             try: 
                 total_prob += log(self.probs[intd][obsv])
             except:
