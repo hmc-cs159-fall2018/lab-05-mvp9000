@@ -11,19 +11,25 @@
 11. We decided to do the real-world correction option. Our approach included allowing our spellchecker model to consider corrections for every single word of a sentence. To accomplish this, when we generated candidates for every word, we made sure not to remove the word for which we were correcting if that was a word in the language model. 
 12. A few examples of how the new model (bottom) compares to the baseline spellchecker (top) are below:
 
-*She* stuck her nose where it does n't belong . I believe the argument was between me and Yvesnimmo . But like I said , the situation was settled and *I* apologized
+**She** stuck her nose where it does n't belong . I believe the argument was between me and Yvesnimmo . But like I said , the situation was settled and **I** apologized
+
 \-\-\-
-*he* stuck her nose where it does n't belong . i believe the argument was between me and Yvesnimmo . but like i said , the situation was settled and *a* apologized 
+
+**he** stuck her nose where it does n't belong . i believe the argument was between me and Yvesnimmo . but like i said , the situation was settled and **a** apologized 
 
 
-*your* vandalism to the at Shirvington article has been reverted . Please do n't do it again , or you will be banned .
+**your** vandalism to the at Shirvington article has been reverted . Please do n't do it again , or you will be banned .
+
 \-\-\-
-*our* vandalism to the at Shirvington article has been reverted . please do n't do it again , or you will be banned .
+
+**our** vandalism to the at Shirvington article has been reverted . please do n't do it again , or you will be banned .
 
 ABC officially says THIS is the name for that episode . I do know there is already an episode with that name , but ABC says it 's " Everybod
-y 's *Says* Do n't " .
+y 's **Says** Do n't " .
+
 \-\-\-
+
 ABC officially says THIS is the name for that episode . i do know there is already an episode with that name , but ABC says it 's " everybod
-y 's *ways* o n't "
+y 's **ways** o n't "
 
 13. The code changes were not as substantial as the conceptual change. Our main practical issue was that using the language model actually creates morerrors and adds bias to our spelling correction as now words like 'she' may be corrected to 'he' because our language model finds 'he' more likely.
